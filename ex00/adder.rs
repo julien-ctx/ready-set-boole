@@ -28,7 +28,7 @@ fn adder(a: u32, b: u32) -> u32 {
 }
 
 fn main() {
-	let array: [u32; 6] = [10, 42, 56, 689, 0, 2456];
+	let array: [u32; 7] = [10, 42, 56, 689, 0, 42, 2456];
 	for i in array.iter() {
 		for j in array.iter() {
 			println!("My result: {}, real results: {}", adder(*i, *j), *i + *j);
