@@ -11,7 +11,7 @@ PROJECT = $(shell echo $(NAME) | tr '[:lower:]' '[:upper:]')
 
 SRCS = adder.rs \
 
-RUST_FLAGS = -W unused -W nonstandard_style -D warnings
+RUST_FLAGS = #-W unused -W nonstandard_style -D warnings
 
 all: $(NAME)
 
