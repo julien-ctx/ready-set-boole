@@ -1,3 +1,7 @@
+mod adder;
+
+use adder::adder;
+
 fn generate_nb(value: u32) -> u32 {
     return if value == 1 {4294967295} else {0};
 }
