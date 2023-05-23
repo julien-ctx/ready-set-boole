@@ -1,16 +1,17 @@
-fn set_bit(nb: u32, bit_nb: u32) -> u32 {
-	return (1 << bit_nb) | nb;
-}
-
-fn multiplier(a: u32, b: u32) -> u32 {
-
+mod libs {
+    pub mod rand {
+        pub fn generate_random_number() -> u32 {
+            // Use your custom logic or call the rand crate functions here
+            // For example, you can generate a random number using the rand crate
+            // rand::random::<u32>()
+            // Or you can write your own logic to generate a random number
+            42
+        }
+    }
 }
 
 fn main() {
-	let array: [u32; 7] = [17, 44, 6, 69, 0, 6, 245];
-	for i in array.iter() {
-		for j in array.iter() {
-			println!("My result: {}, real results: {}", adder(*i, *j), *i + *j);
-		}
-	}
+    // Use the included libraries
+    let random_number = libs::rand::generate_random_number();
+    println!("Random number: {}", random_number);
 }
