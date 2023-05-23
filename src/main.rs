@@ -1,8 +1,10 @@
 mod adder;
 mod multiplier;
+mod gray_code;
 
 use adder::adder;
 use multiplier::multiplier;
+use gray_code::gray_code;
 
 use rand::Rng;
 
@@ -33,8 +35,6 @@ fn main() {
     println!("My result: {}{}{} | Real result: {}{}{} | DIFF {}", bold, my_result, reset, bold, real_result, reset, diff); 
 
 	println!("\n{}--------------------EXERCISE 01--------------------{}", bold, reset);
-	// println!("{:032b}\n{:032b}", multiplier(29, 9), 29 * 9); // 261
-	// println!("{}\n{}", multiplier(29, 9), 29 * 9); // 261
 	for _ in 0..15 {
         let rand1: u32 = rng.gen_range(0..=500);
         let rand2: u32 = rng.gen_range(0..=500);
@@ -56,4 +56,13 @@ fn main() {
 	 println!("My result: {}{}{} | Real result: {}{}{} | DIFF {}", bold, my_result, reset, bold, real_result, reset, diff); 
 
     0;
+	
+	println!("\n{}--------------------EXERCISE 02--------------------{}", bold, reset);
+	let numbers: [u32; 8] = [0, 854, 1, 54, 42, 99, 100, 5];
+	let results: [u32; 8] = [0, 765, 1, 45, 63, 82, 86, 7];
+	for (number, result) in numbers.iter().zip(results.iter()) {
+		let my_result = gray_code(*number);
+		let diff = if my_result == *result { "\x1b[32mOK\x1b[0m" } else { "\x1b[31mKO\x1b[0m" };	
+	 	println!("My result: {}{}{} | Real result: {}{}{} | DIFF {}", bold, my_result, reset, bold, *result, reset, diff); 
+	}
 }
