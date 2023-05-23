@@ -3,6 +3,7 @@ mod multiplier;
 
 use adder::adder;
 use multiplier::multiplier;
+
 use rand::Rng;
 
 fn main() {
