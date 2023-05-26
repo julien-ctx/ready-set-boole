@@ -8,23 +8,32 @@ pub fn eval_formula(formula: &str) -> bool {
 	for c in f.chars() {
 		if c.is_numeric() {
 			stack.push(c as u8 - 48);
-		} else if stack.len() >= 2 {
-			let res;
-			match c {
-				// '!' => res = stack[stack.len() - 2]!stack[stack.len() - 1],
-				'&' => res = stack[stack.len() - 2] & stack[stack.len() - 1],
-				'|' => res = stack[stack.len() - 2] | stack[stack.len() - 1],
-				'^' => res = stack[stack.len() - 2] ^ stack[stack.len() - 1],
-				// '>' => res = stack[stack.len() - 2]>stack[stack.len() - 1],
-				// '=' => 
-				_ => {
-					println!("Error: forbidden characters in input string");
+		} else {
+			if c == '!'{
+				if stack.len() > 1 {
+					println!("Error: forbidden characters in input string");	
 					process::exit(1);
 				}
+				let index = stack.len() - 1;
+				stack[index] = if stack[index] != 0 { 0 } else { 1 };
+			} else {
+
+				let res;
+				match c {
+					'&' => res = stack[stack.len() - 2] & stack[stack.len() - 1],
+					'|' => res = stack[stack.len() - 2] | stack[stack.len() - 1],
+					'^' => res = stack[stack.len() - 2] ^ stack[stack.len() - 1],
+					// '>' => res = stack[stack.len() - 2]>stack[stack.len() - 1],
+					// '=' => 
+					_ => {
+						println!("Error: forbidden characters in input string");
+						process::exit(1);
+					}
+				}
+				stack.pop();
+				stack.pop();
+				stack.push(res);
 			}
-			stack.pop();
-			stack.pop();
-			stack.push(res);
 		}
 	}
 	return stack[0] != 0;
