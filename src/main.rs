@@ -2,11 +2,13 @@ mod adder;
 mod multiplier;
 mod gray_code;
 mod eval_formula;
+mod print_truth_table;
 
 use adder::adder;
 use multiplier::multiplier;
 use gray_code::gray_code;
 use eval_formula::eval_formula;
+use print_truth_table::print_truth_table;
 
 use rand::Rng;
 
@@ -76,4 +78,7 @@ fn main() {
 		let diff = if my_result == *result { "\x1b[32mOK\x1b[0m" } else { "\x1b[31mKO\x1b[0m" };	
 	 	println!("My result: {}{}{} | Real result: {}{}{} | DIFF {}", bold, my_result, reset, bold, *result, reset, diff); 
     }
+
+    println!("\n{}--------------------EXERCISE 04--------------------{}", bold, reset);
+    print_truth_table("ABC");
 }

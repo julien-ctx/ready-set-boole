@@ -17,7 +17,7 @@ pub fn eval_formula(formula: &str) -> bool {
 				'&' => res = stack[stack.len() - 2] & stack[stack.len() - 1],
 				'|' => res = stack[stack.len() - 2] | stack[stack.len() - 1],
 				'^' => res = stack[stack.len() - 2] ^ stack[stack.len() - 1],
-				'>' => res = if stack[stack.len() - 2] == 1 && stack[stack.len() - 1] == 0 { 0 } else { 1 },
+				'>' => res = if stack[stack.len() - 2] != 0 && stack[stack.len() - 1] == 0 { 0 } else { 1 },
 				'=' => res = (stack[stack.len() - 2] == stack[stack.len() - 1]) as u8,
 				_ => {
 					println!("Error: forbidden characters in input string");
