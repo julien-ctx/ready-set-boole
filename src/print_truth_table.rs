@@ -1,35 +1,64 @@
 use crate::eval_formula;
+use crate::adder;
 
-fn get_permutations(vars: Vec<char>, permutation: &mut Vec<u32>, permutation_len: u32) {
+use std::process;
+
+fn calculate_combination(f: &str, vars: Vec<char>, permutation: &mut Vec<u32>, permutation_len: u32) {
+	// If permutation has been fully filled.
 	if permutation_len == vars.len() as u32 {
-		// println!("{:?}", permutation);
-		return;
+		let mut i: usize = 0;
+		let mut formula: Vec<char> = f.chars().collect();
+		for c in &mut formula {
+			if *c >= 'A' && *c <= 'Z' {
+				*c = char::from_u32(permutation[i] as u32 + 48).unwrap();
+				// i = adder(i as u32, 1 as u32);
+				i +=1;
+			}
+		}
+		println!("res = {}", eval_formula(formula.iter().collect::<String>().as_str()));
+		// let equivalence = if eval_formula()
+		print_row(permutation, false);
+		// return;
 	} else {
 		for i in 0..2 {
 			permutation[permutation_len as usize] = i as u32;
-			get_permutations(vars.clone(), permutation, (permutation_len + 1) as u32);
+			calculate_combination(&f, vars.clone(), permutation, (permutation_len + 1) as u32);
 		}
 	}
 }
 
-fn get_truth_table(formula: &str) -> Vec<char> {
-	let vars: Vec<char> = formula
-	.chars()
-	.filter(|&c| (c.is_ascii() && (c as u8) >= 65 && (c as u8) <= 90))
-	.collect();
-	let mut permutation: Vec<u32> = Vec::new();
-	for _ in &vars {
-		permutation.push(0);
-	}
-	get_permutations(vars.clone(), &mut permutation, 0);
-	println!("{:?}", permutation);
-	vars
+fn print_row<T>(vars: &Vec<T>, header: bool)
+where
+    T: std::fmt::Display,
+{
+    print!("|");
+    for item in vars {
+        print!(" {} |", item);
+    }
+    if header {
+        println!(" = |");
+        print!("|---|---|---|---|");
+    }
+	println!("");
 }
 
 pub fn print_truth_table(formula: &str) {
 	let f = formula.replace(" ", "");
-	let truth_table = get_truth_table(formula);
-	// for row in &truth_table {
-	// 	println!("{}", *row);
-	// }
+
+	let vars: Vec<char> = formula
+	.chars()
+	.filter(|&c| (c.is_ascii() && (c as u8) >= 65 && (c as u8) <= 90))
+	.collect();
+	if vars.len() == 0 {
+		println!("Error: no variables in input string");
+		process::exit(1);
+	}
+
+	let mut permutation: Vec<u32> = Vec::new();
+	for _ in &vars {
+		permutation.push(0);
+	}
+
+	print_row(&vars, true);
+	calculate_combination(&f, vars.clone(), &mut permutation, 0);
 }

@@ -6,7 +6,7 @@ pub fn eval_formula(formula: &str) -> bool {
 	let mut stack: Vec<u8> = Vec::new();
 
 	for c in f.chars() {
-		if c.is_numeric() {
+		if c == '1' || c == '0' {
 			stack.push(c as u8 - 48);
 		} else if c == '!' && stack.len() == 1 {
 			let index = stack.len() - 1;
