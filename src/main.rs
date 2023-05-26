@@ -69,5 +69,5 @@ fn main() {
 	}
 
     println!("\n{}--------------------EXERCISE 03--------------------{}", bold, reset);
-    println!("{}", eval_formula("1011||="));
+    println!("{}", eval_formula("101&&"));
 }
