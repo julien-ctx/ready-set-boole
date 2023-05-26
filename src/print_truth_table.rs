@@ -2,6 +2,7 @@ use crate::eval_formula;
 use crate::adder;
 
 use std::process;
+use std::collections::HashSet;
 
 fn calculate_combination(f: &str, vars: Vec<char>, permutation: &mut Vec<u32>, permutation_len: u32) {
 	// If permutation has been fully filled.
@@ -50,15 +51,17 @@ where
 pub fn print_truth_table(formula: &str) {
 	let f = formula.replace(" ", "");
 
-	let vars: Vec<char> = formula
+	let all_vars: Vec<char> = formula
 	.chars()
 	.filter(|&c| (c.is_ascii() && (c as u8) >= 65 && (c as u8) <= 90))
 	.collect();
+	// Remove duplicates
+	let vars: Vec<char> = all_vars.into_iter().collect::<HashSet<_>>().into_iter().collect();
 	if vars.len() == 0 {
 		println!("Error: no variables in input string");
 		process::exit(1);
 	}
-
+	
 	let mut permutation: Vec<u32> = Vec::new();
 	for _ in &vars {
 		permutation.push(0);
