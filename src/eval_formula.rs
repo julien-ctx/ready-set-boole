@@ -8,7 +8,7 @@ pub fn eval_formula(formula: &str) -> bool {
 	for c in f.chars() {
 		if c.is_numeric() {
 			stack.push(c as u8 - 48);
-		} else if c == '!' && stack.len() >= 1 {
+		} else if c == '!' && stack.len() == 1 {
 			let index = stack.len() - 1;
 			stack[index] = if stack[index] != 0 { 0 } else { 1 };
 		} else if stack.len() >= 2 {
