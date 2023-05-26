@@ -69,5 +69,11 @@ fn main() {
 	}
 
     println!("\n{}--------------------EXERCISE 03--------------------{}", bold, reset);
-    println!("{}", eval_formula("0!"));
+    let tests: [&str; 8] = ["10&", "10|", "11>", "10=", "1011||=", "1011110^=>|&!", "1!!!", "1100|^&"];
+    let results: [bool; 8] = [false, true, true, false, true,    false, false, false];
+    for (test, result) in tests.iter().zip(results.iter()) {
+        let my_result = eval_formula(*test);
+		let diff = if my_result == *result { "\x1b[32mOK\x1b[0m" } else { "\x1b[31mKO\x1b[0m" };	
+	 	println!("My result: {}{}{} | Real result: {}{}{} | DIFF {}", bold, my_result, reset, bold, *result, reset, diff); 
+    }
 }
