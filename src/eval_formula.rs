@@ -32,5 +32,9 @@ pub fn eval_formula(formula: &str) -> bool {
 			process::exit(1);	
 		}
 	}
+	if stack.len() != 1 {
+		println!("Error: bad RPN syntax");
+		process::exit(1);	
+	}
 	return stack[0] != 0;
 }

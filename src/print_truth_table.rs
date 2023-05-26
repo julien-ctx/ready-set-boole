@@ -6,19 +6,22 @@ use std::process;
 fn calculate_combination(f: &str, vars: Vec<char>, permutation: &mut Vec<u32>, permutation_len: u32) {
 	// If permutation has been fully filled.
 	if permutation_len == vars.len() as u32 {
-		let mut i: usize = 0;
+		let mut i: u32 = 0;
 		let mut formula: Vec<char> = f.chars().collect();
 		for c in &mut formula {
 			if *c >= 'A' && *c <= 'Z' {
-				*c = char::from_u32(permutation[i] as u32 + 48).unwrap();
-				// i = adder(i as u32, 1 as u32);
-				i +=1;
+				*c = char::from_u32(permutation[i as usize] as u32 + 48).unwrap();
+				i = adder(i, 1);
 			}
 		}
-		println!("res = {}", eval_formula(formula.iter().collect::<String>().as_str()));
-		// let equivalence = if eval_formula()
+		let equivalence = eval_formula(formula.iter().collect::<String>().as_str());
+		if equivalence {
+			permutation.push(1);
+		} else {
+			permutation.push(0);
+		}
 		print_row(permutation, false);
-		// return;
+		permutation.pop();
 	} else {
 		for i in 0..2 {
 			permutation[permutation_len as usize] = i as u32;
@@ -36,8 +39,10 @@ where
         print!(" {} |", item);
     }
     if header {
-        println!(" = |");
-        print!("|---|---|---|---|");
+        print!(" = |\n|");
+		for _ in 0..=vars.len() {
+			print!("---|");
+		}
     }
 	println!("");
 }
