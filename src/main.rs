@@ -80,6 +80,9 @@ fn main() {
     }
 
     println!("\n{}--------------------EXERCISE 04--------------------{}", bold, reset);
-    print_truth_table("AC&A|");
     print_truth_table("AB&C|");
+    println!("");
+    print_truth_table("AA&A=");
+    println!("");
+    print_truth_table("AB^!");
 }

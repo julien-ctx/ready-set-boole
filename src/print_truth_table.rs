@@ -1,4 +1,5 @@
 use crate::eval_formula;
+use crate::adder;
 
 use std::process;
 
@@ -14,8 +15,8 @@ fn calculate_combination(f: &mut String, vars: Vec<char>, permutation: &mut Vec<
 		permutation.pop();
 	} else {
 		for i in 0..2 {
-			permutation[permutation_len as usize] = char::from_u32(i + 48).unwrap();
-			calculate_combination(f, vars.clone(), permutation, (permutation_len + 1) as u32);
+			permutation[permutation_len as usize] = char::from_u32(adder(i, 48)).unwrap();
+			calculate_combination(f, vars.clone(), permutation, adder(permutation_len, 1));
 		}
 	}
 }
