@@ -18,11 +18,21 @@ fn clear_formula(f: &mut Vec<char>, formula: &str) {
 }
 
 fn is_operator(c: char) -> bool {
-    if c == '&' || c == '|' || c == '^' || c == '>' || c == '=' {
+    if c == '&' || c == '|' || c == '^' || c == '>' || c == '=' || c == '!' {
         return true;
     } else {
         return false;
     }
+}
+
+fn count_alpha(s: &str) -> u32 {
+    let mut count = 0;
+    for c in s.chars() {
+        if c.is_ascii_uppercase() {
+            count += 1;
+        }
+    }
+    count
 }
 
 pub fn negation_normal_form(formula: &str) -> String {
@@ -40,10 +50,20 @@ pub fn negation_normal_form(formula: &str) -> String {
         }
     }   
 
-    for token in &tokens {
-        println!("{}", token);
+    for (index, token) in tokens.iter().enumerate() {
+        let count = count_alpha(&token);
+        if token.contains('!') {
+            if index > 0 {
+                let previous_token = &tokens[index - 1];
+                // Access the previous token and perform operations here
+                println!("Previous token: {}", previous_token);
+            } else {
+                println!("No previous token available.");
+            }
+        }
     }
-
+    
+    
     stack.iter().collect()
 }
 

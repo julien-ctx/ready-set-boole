@@ -89,6 +89,6 @@ fn main() {
     print_truth_table("AB^!");
 
     println!("\n{}--------------------EXERCISE 05--------------------{}", bold, reset);
-    println!("{}", negation_normal_form("AB|C&!"));
+    negation_normal_form("AB|C&!");
     // print_truth_table("A!B!&C!|");
 }
