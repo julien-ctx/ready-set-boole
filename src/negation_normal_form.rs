@@ -17,28 +17,35 @@ fn clear_formula(f: &mut Vec<char>, formula: &str) {
     }
 }
 
+fn is_operator(c: char) -> bool {
+    if c == '&' || c == '|' || c == '^' || c == '>' || c == '=' {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 pub fn negation_normal_form(formula: &str) -> String {
-	// Cleared formula
     let mut f: Vec<char> = Vec::new();
-	// Stack to perform mathematical operations
     let mut stack: Vec<char> = Vec::new();
-	// Result string
-    let mut res = String::new();
+    let mut tokens: Vec<String> = Vec::new();
 
     clear_formula(&mut f, formula);
 
-	for c in f.chars() {
-		if c != '!' {
-			stack.push(c);
-		} else {
-			let mut stack2: Vec<char> = Vec::new();
-			for &element in stack.iter().rev() {
-        		if c == '&' || c == '|' || c == '^' || c == '>' || c == '=' || c.is_ascii_uppercase() {
+    for c in f {
+        stack.push(c);
+        if is_operator(c) {
+            tokens.push(stack.iter().collect());
+            stack.clear();
+        }
+    }   
 
-			}	
-		}
-	}
-	
-    return f.into_iter().collect();
+    for token in &tokens {
+        println!("{}", token);
+    }
+
+    stack.iter().collect()
 }
+
+
 // res.push_str(&(format!("{}{}&{}!{}!&|", first, second, first, second)).as_str());
