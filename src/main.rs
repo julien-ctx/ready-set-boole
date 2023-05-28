@@ -3,12 +3,14 @@ mod multiplier;
 mod gray_code;
 mod eval_formula;
 mod print_truth_table;
+mod negation_normal_form;
 
 use adder::adder;
 use multiplier::multiplier;
 use gray_code::gray_code;
 use eval_formula::eval_formula;
 use print_truth_table::print_truth_table;
+use negation_normal_form::negation_normal_form;
 
 use rand::Rng;
 
@@ -85,4 +87,9 @@ fn main() {
     print_truth_table("AA&A=");
     println!("");
     print_truth_table("AB^!");
+
+    println!("\n{}--------------------EXERCISE 05--------------------{}", bold, reset);
+    // println!("{}", negation_normal_form("A!!"));
+    print_truth_table("AB|C&!");
+    // print_truth_table("A!B!&C!|");
 }
