@@ -35,6 +35,20 @@ fn count_alpha(s: &str) -> u32 {
     count
 }
 
+fn create_tokens(f: &[char]) -> Vec<String> {
+    let mut stack: Vec<char> = Vec::new();
+    let mut tokens: Vec<String> = Vec::new();
+
+    for c in f {
+        stack.push(*c);
+        if is_operator(*c) {
+            tokens.push(stack.iter().collect());
+            stack.clear();
+        }
+    }
+    tokens
+}
+
 pub fn negation_normal_form(formula: &str) -> String {
     let mut f: Vec<char> = Vec::new();
     let mut stack: Vec<char> = Vec::new();
@@ -42,29 +56,33 @@ pub fn negation_normal_form(formula: &str) -> String {
 
     clear_formula(&mut f, formula);
 
-    for c in f {
-        stack.push(c);
-        if is_operator(c) {
-            tokens.push(stack.iter().collect());
-            stack.clear();
-        }
-    }   
+    while f.iter().collect::<String>().contains("&!") || f.iter().collect::<String>().contains("|!") {
 
-    for (index, token) in tokens.iter().enumerate() {
-        let count = count_alpha(&token);
-        if token.contains('!') {
-            if index > 0 {
-                let previous_token = &tokens[index - 1];
-                // Access the previous token and perform operations here
-                println!("Previous token: {}", previous_token);
+        for c in f {
+            let len = stack.len();
+            if c == '!' {
+                if len > 2 && !stack[len - 1].is_ascii_uppercase() {
+                    if stack[len - 1] == '&' {
+                        stack[len - 1] = '|';
+                    } else if stack[len - 1] == '|' {
+                        stack[len - 1] = '&';
+                    }
+                    stack.insert(len - 1, '!');
+                    stack.insert(stack.len() - 3, '!');
+                } else {
+                    stack.push(c);
+                }
             } else {
-                println!("No previous token available.");
+                stack.push(c);
             }
         }
+        f = stack.clone();
+        stack.clear();
+        println!("{:?}", f);
+        println!("");
     }
     
-    
-    stack.iter().collect()
+    f.iter().collect()
 }
 
 
