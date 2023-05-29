@@ -54,16 +54,19 @@ pub fn negation_normal_form(formula: &str) -> String {
                     stack.insert(len, '|');
                     stack.insert(stack.len() - 2, '!');
                 } else if c == '=' {
-                    let first_var = stack[len - 2];
-                    let second_var = stack[len - 1];
-                    let new_chars = format!("{}{}&{}!{}!&|", first_var, second_var, first_var, second_var);
-                    stack.pop();
-                    stack.pop();
+                    // let first_var = stack[len - 2];
+                    // println!("{:?}", stack);
+                    let first_var: Vec<char> = stack.iter().take(len - 1).cloned().collect();
+                    let second_var = stack[len - 1]; 
+                    let new_chars = format!("{}{}&{}!{}!&|", first_var.iter().collect::<String>(), second_var, first_var.iter().collect::<String>(), second_var);
+                    // stack.pop();
+                    // stack.pop();
+                    stack.clear();
                     stack.extend(new_chars.chars());
                 } else if c == '^' {
-                    let first_var = stack[len - 2];
+                    let first_var: Vec<char> = stack.iter().take(len - 1).cloned().collect();
                     let second_var = stack[len - 1];
-                    let new_chars = format!("{}{}|{}{}&!&", first_var, second_var, first_var, second_var);
+                    let new_chars = format!("{}{}|{}{}&!&", first_var.iter().collect::<String>(), second_var, first_var.iter().collect::<String>(), second_var);
                     stack.pop();
                     stack.pop();
                     stack.extend(new_chars.chars()); 

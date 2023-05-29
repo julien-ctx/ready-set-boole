@@ -96,8 +96,13 @@ fn main() {
     // println!("{}\n", negation_normal_form("AB=")); // AB&A!B!&|
     // println!("{}\n", negation_normal_form("AB|C&!")); // A!B!&C!|
     // println!("{}\n", negation_normal_form("AB^")); // AB|A!B!|&
-    println!("{}", negation_normal_form("AB=")); // 
-    println!("{}", negation_normal_form("AB&A!B!&|C=")); // 
+    
     println!("{}", negation_normal_form("AB=C=")); // 
+    // println!("{}", negation_normal_form("AB&A!B!&AB&A!B!&|C&AB&A!!B!!!!|&C!&|")); // 
+    // println!("{}", negation_normal_form("AB&A!B!&|C=")); // 
 
 }
+
+// AB&A!B!&| C=
+
+// AB&A!B!&|C&AB&A!B!&|!C!&|
