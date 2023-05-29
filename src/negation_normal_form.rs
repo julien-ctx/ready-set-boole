@@ -17,22 +17,13 @@ fn clear_formula(f: &mut Vec<char>, formula: &str) {
     }
 }
 
-// fn is_operator(c: char) -> bool {
-//     if c == '&' || c == '|' || c == '^' || c == '>' || c == '=' || c == '!' {
-//         return true;
-//     } else {
-//         return false;
-//     }
-// }
-
 pub fn negation_normal_form(formula: &str) -> String {
     let mut f: Vec<char> = Vec::new();
     let mut stack: Vec<char> = Vec::new();
 
     clear_formula(&mut f, formula);
-
-    while f.iter().collect::<String>().contains("&!") || f.iter().collect::<String>().contains("|!") || f.iter().collect::<String>().contains(">") || f.iter().collect::<String>().contains("^") || f.iter().collect::<String>().contains("="){
-
+    
+    while f.iter().collect::<String>().contains("&!") || f.iter().collect::<String>().contains("|!") || f.iter().collect::<String>().contains(">") || f.iter().collect::<String>().contains("^") || f.iter().collect::<String>().contains("=") {
         for c in f {
             let len = stack.len();
             if c == '!' {
@@ -54,26 +45,34 @@ pub fn negation_normal_form(formula: &str) -> String {
                     stack.insert(len, '|');
                     stack.insert(stack.len() - 2, '!');
                 } else if c == '=' {
-                    // let first_var = stack[len - 2];
-                    // println!("{:?}", stack);
                     let first_var: Vec<char> = stack.iter().take(len - 1).cloned().collect();
                     let second_var = stack[len - 1]; 
                     let new_chars = format!("{}{}&{}!{}!&|", first_var.iter().collect::<String>(), second_var, first_var.iter().collect::<String>(), second_var);
-                    // stack.pop();
-                    // stack.pop();
                     stack.clear();
                     stack.extend(new_chars.chars());
                 } else if c == '^' {
                     let first_var: Vec<char> = stack.iter().take(len - 1).cloned().collect();
                     let second_var = stack[len - 1];
-                    let new_chars = format!("{}{}|{}{}&!&", first_var.iter().collect::<String>(), second_var, first_var.iter().collect::<String>(), second_var);
-                    stack.pop();
-                    stack.pop();
-                    stack.extend(new_chars.chars()); 
+                    let new_chars = format!("{}{}|{}!{}!|&", first_var.iter().collect::<String>(), second_var, first_var.iter().collect::<String>(), second_var);
+                    stack.clear();
+                    stack.extend(new_chars.chars());
                 }
             }
         }
-        f = stack.clone();
+        
+        let mut stack_copy: Vec<char> = Vec::new();
+        for c in &stack {
+            if *c == '!' && stack_copy.len() > 0 {
+                if stack_copy[stack_copy.len() - 1] != '!' {
+                    stack_copy.push(*c);
+                } else {
+                    stack_copy.pop();
+                }
+            } else {
+                stack_copy.push(*c);
+            }
+        }
+        f = stack_copy.clone(); 
         stack.clear();
     }
     

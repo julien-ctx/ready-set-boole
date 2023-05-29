@@ -88,21 +88,13 @@ fn main() {
     println!("");
     print_truth_table("AB^!");
 
-    // print_truth_table("AB^");
     println!("\n{}--------------------EXERCISE 05--------------------{}", bold, reset);
-    // println!("{}\n", negation_normal_form("AB&!")); // A!B!|
-    // println!("{}\n", negation_normal_form("AB|!")); // A!B!&
-    // println!("{}\n", negation_normal_form("AB>")); // A!B|
-    // println!("{}\n", negation_normal_form("AB=")); // AB&A!B!&|
-    // println!("{}\n", negation_normal_form("AB|C&!")); // A!B!&C!|
-    // println!("{}\n", negation_normal_form("AB^")); // AB|A!B!|&
-    
-    println!("{}", negation_normal_form("AB=C=")); // 
-    // println!("{}", negation_normal_form("AB&A!B!&AB&A!B!&|C&AB&A!!B!!!!|&C!&|")); // 
-    // println!("{}", negation_normal_form("AB&A!B!&|C=")); // 
-
+    println!("{}\n", negation_normal_form("AB&!")); // A!B!|
+    println!("{}\n", negation_normal_form("AB|!")); // A!B!&
+    println!("{}\n", negation_normal_form("AB>")); // A!B|
+    println!("{}\n", negation_normal_form("AB=")); // AB&A!B!&|
+    println!("{}\n", negation_normal_form("AB|C&!")); // A!B!&C!|
+    println!("{}\n", negation_normal_form("AB^")); // AB|A!B!|&
+    println!("{}\n", negation_normal_form("AB>C>")); // AB|A!B!|&
 }
 
-// AB&A!B!&| C=
-
-// AB&A!B!&|C&AB&A!B!&|!C!&|
