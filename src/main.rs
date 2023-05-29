@@ -88,12 +88,16 @@ fn main() {
     println!("");
     print_truth_table("AB^!");
 
-    print_truth_table("AB|!C!|");
-    print_truth_table("AB|C&!");
+    // print_truth_table("AB^");
     println!("\n{}--------------------EXERCISE 05--------------------{}", bold, reset);
-    println!("{}", negation_normal_form("AB&!"));
-    // println!("{}", negation_normal_form("AB|!C!|"));
-    // println!("{}", negation_normal_form("A!B!& C!|"));
-    // println!("{}", negation_normal_form("A!"));
-    // print_truth_table("A!B!&C!|");
+    // println!("{}\n", negation_normal_form("AB&!")); // A!B!|
+    // println!("{}\n", negation_normal_form("AB|!")); // A!B!&
+    // println!("{}\n", negation_normal_form("AB>")); // A!B|
+    // println!("{}\n", negation_normal_form("AB=")); // AB&A!B!&|
+    // println!("{}\n", negation_normal_form("AB|C&!")); // A!B!&C!|
+    // println!("{}\n", negation_normal_form("AB^")); // AB|A!B!|&
+    println!("{}", negation_normal_form("AB=")); // 
+    println!("{}", negation_normal_form("AB&A!B!&|C=")); // 
+    println!("{}", negation_normal_form("AB=C=")); // 
+
 }
