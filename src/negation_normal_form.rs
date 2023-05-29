@@ -34,7 +34,26 @@ pub fn negation_normal_form(formula: &str) -> String {
                         stack[len - 1] = '&';
                     }
                     stack.insert(len - 1, '!');
-                    stack.insert(stack.len() - 3, '!');
+                    if stack[stack.len() - 3].is_ascii_uppercase() || stack[stack.len() - 3] == '!' {
+                        if stack[stack.len() - 3] == '!' {
+                            stack.insert(stack.len() - 4, '!')
+                        } else {
+                            stack.insert(stack.len() - 3, '!')
+                        }
+                    } else {
+                        let mut i = 2;
+                        let mut count = 0;
+                        while stack.len() - i != 1 {
+                            if stack[stack.len() - i].is_ascii_uppercase() {
+                                count += 1;
+                            }
+                            if count == 2 {
+                                break;
+                            }
+                            i += 1;
+                        }
+                        stack.insert(stack.len() - i, '!');
+                    }
                 } else {
                     stack.push(c);
                 }
