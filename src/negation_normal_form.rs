@@ -59,7 +59,7 @@ pub fn negation_normal_form(formula: &str) -> String {
                 }
             }
         }
-        
+
         let mut stack_copy: Vec<char> = Vec::new();
         for c in &stack {
             if *c == '!' && stack_copy.len() > 0 {
@@ -73,6 +73,7 @@ pub fn negation_normal_form(formula: &str) -> String {
             }
         }
         f = stack_copy.clone(); 
+        
         stack.clear();
     }
     
