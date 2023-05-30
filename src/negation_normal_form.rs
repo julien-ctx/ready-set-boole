@@ -30,7 +30,7 @@ fn contains_forbidden_chars(f: &mut Vec<char>) -> bool {
     f.iter().collect::<String>().contains("&!") || f.iter().collect::<String>().contains("|!") || f.iter().collect::<String>().contains("=") || f.iter().collect::<String>().contains(">") || f.iter().collect::<String>().contains("^")
 }
 
-fn get_vars(stack: &mut Vec<char>) -> (Vec<char>, Vec<char>) {
+pub fn get_vars(stack: &mut Vec<char>) -> (Vec<char>, Vec<char>) {
     let mut copy = stack.clone();
     copy.pop();
 

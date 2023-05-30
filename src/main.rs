@@ -107,5 +107,6 @@ fn main() {
     // println!("{}\n", conjunctive_normal_form("AB&C&D&")); // ABCD&&&
     // println!("{}\n", conjunctive_normal_form("AB&!C!|")); // A!B!C!||
     // println!("{}\n", conjunctive_normal_form("AB|!C!&")); // A!B!C!&&
-    println!("{}\n", conjunctive_normal_form("ABCD&|&")); // ABC|BD|&&
+    // println!("{}\n", conjunctive_normal_form("ABCD&|&")); // ABC|BD|&&
+
 }
