@@ -1,100 +1,101 @@
 use std::process;
 
-fn clear_formula(f: &mut Vec<char>, formula: &str) {
-    for c in formula.chars() {
+fn is_binary_operator(c: char) -> bool {
+    c == '&' || c == '|' || c == '^' || c == '>' || c == '='
+}
+
+fn remove_double_negation(vec: &mut Vec<char>) {
+    let copy = vec.clone();
+    vec.clear();
+    for c in copy {
         if c == '!' {
-            if let Some('!') = f.last() {
-                f.pop();
+            if vec.len() > 0 && vec[vec.len() - 1] == '!' {
+                vec.pop();
+            } else if vec.len() > 0 {
+                vec.push(c);
             } else {
-                f.push(c);
+                println!("Error: bad input format");
+                process::exit(1); 
             }
-        } else if c == '&' || c == '|' || c == '^' || c == '>' || c == '=' || c.is_ascii_uppercase() {
-            f.push(c);
+        } else if c.is_ascii_uppercase() || is_binary_operator(c) {
+            vec.push(c);
         } else {
-            println!("Error: bad RPN syntax");
+            println!("Error: bad input format");
             process::exit(1);
         }
     }
 }
 
-pub fn negation_normal_form(formula: &str) -> String {
-    let mut f: Vec<char> = Vec::new();
-    let mut stack: Vec<char> = Vec::new();
+fn contains_forbidden_chars(f: &mut Vec<char>) -> bool {
+    f.iter().collect::<String>().contains("&!") || f.iter().collect::<String>().contains("|!") || f.iter().collect::<String>().contains("=") || f.iter().collect::<String>().contains(">")
+}
 
-    clear_formula(&mut f, formula);
+fn get_vars(stack: &mut Vec<char>) -> (Vec<char>, Vec<char>) {
+    let mut copy = stack.clone();
+    copy.pop();
+    let mut i = 0;
+
+    if is_binary_operator(copy[copy.len() - 1]) {
+        let mut alpha_count = 0;
+        for (index, c) in copy.iter().enumerate().rev() {
+            i = index;
+            if c.is_ascii_uppercase() {
+                alpha_count += 1;
+            }
+            if alpha_count == 2 {
+                break;
+            }
+        }
+        let subvector1 = &stack[0..i];
+        let subvector2 = &stack[i..stack.len() - 1];
+        return (subvector1.to_vec(), subvector2.to_vec());
+
+    } else if copy[copy.len() - 1] == '!' {
+        let subvector1 = &stack[0..stack.len() - 3];
+        let subvector2 = &stack[stack.len() - 3..stack.len() - 1];
+        
+        return (subvector1.to_vec(), subvector2.to_vec());
+    } else {
+        let subvector1 = &stack[0..stack.len() - 2];
+        let subvector2 = &stack[stack.len() - 2..stack.len() - 1];
+        
+        return (subvector1.to_vec(), subvector2.to_vec());
+    }
+}
+
+pub fn negation_normal_form(formula: &str) -> String {
+    let mut f: Vec<char> = formula.chars().collect();
+    let mut stack: Vec<char> = Vec::new();
     
-    while f.iter().collect::<String>().contains("&!") || f.iter().collect::<String>().contains("|!") || f.iter().collect::<String>().contains(">") || f.iter().collect::<String>().contains("^") || f.iter().collect::<String>().contains("=") {
-        for c in f {
+    // let mut i =0;
+    remove_double_negation(&mut f);
+    while contains_forbidden_chars(&mut f) {
+        for c in &f {
             let len = stack.len();
-            if c == '!' {
-                if len > 2 && stack[len - 1] < 'A' || stack[len - 1] > 'Z' {
+            if *c == '!' {
+                if len > 0 && stack[len - 1] == '&' || stack[len - 1] == '|' {
                     if stack[len - 1] == '&' {
                         stack[len - 1] = '|';
-                    } else if stack[len - 1] == '|' {
+                    } else {
                         stack[len - 1] = '&';
                     }
-                    stack.insert(len - 1, '!');
-                    if stack[stack.len() - 3].is_ascii_uppercase() || stack[stack.len() - 3] == '!' {
-                        if stack[stack.len() - 3] == '!' {
-                            stack.insert(stack.len() - 4, '!')
-                        } else {
-                            stack.insert(stack.len() - 3, '!')
-                        }
-                    } else {
-                        let mut i = 2;
-                        let mut count = 0;
-                        while stack.len() - i != 1 {
-                            if stack[stack.len() - i].is_ascii_uppercase() {
-                                count += 1;
-                            }
-                            if count == 2 {
-                                break;
-                            }
-                            i += 1;
-                        }
-                        stack.insert(stack.len() - i, '!');
-                    }
-                } else {
-                    stack.push(c);
-                }
-            } else if c.is_ascii_uppercase() || c == '&' || c == '|' {
-                stack.push(c);
-            } else if len >= 2 {
-                if c == '>' {
-                    stack.insert(len, '|');
-                    stack.insert(stack.len() - 2, '!');
-                } else if c == '=' {
-                    let first_var: Vec<char> = stack.iter().take(len - 1).cloned().collect();
-                    let second_var = stack[len - 1]; 
-                    let new_chars = format!("{}{}&{}!{}!&|", first_var.iter().collect::<String>(), second_var, first_var.iter().collect::<String>(), second_var);
+                    let (first, second) = get_vars(&mut stack);
+                    println!("{} {}", first.iter().collect::<String>(), second.iter().collect::<String>());
+                    let new_chars = format!("{}!{}!{}", first.iter().collect::<String>(), second.iter().collect::<String>(), stack[len - 1]);
                     stack.clear();
                     stack.extend(new_chars.chars());
-                } else if c == '^' {
-                    let first_var: Vec<char> = stack.iter().take(len - 1).cloned().collect();
-                    let second_var = stack[len - 1];
-                    let new_chars = format!("{}{}|{}!{}!|&", first_var.iter().collect::<String>(), second_var, first_var.iter().collect::<String>(), second_var);
-                    stack.clear();
-                    stack.extend(new_chars.chars());
-                }
-            }
-        }
-
-        let mut stack_copy: Vec<char> = Vec::new();
-        for c in &stack {
-            if *c == '!' && stack_copy.len() > 0 {
-                if stack_copy[stack_copy.len() - 1] != '!' {
-                    stack_copy.push(*c);
+                    println!("res: {}", stack.iter().collect::<String>());
                 } else {
-                    stack_copy.pop();
+                    stack.push(*c); 
                 }
             } else {
-                stack_copy.push(*c);
+                stack.push(*c);
             }
-        }
-        f = stack_copy.clone(); 
-        
+        } 
+        f = stack.clone();
         stack.clear();
+        remove_double_negation(&mut f);
+        println!("fsres: {}", f.iter().collect::<String>());
     }
-    
     f.iter().collect()
 }
