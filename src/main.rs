@@ -4,6 +4,7 @@ mod gray_code;
 mod eval_formula;
 mod print_truth_table;
 mod negation_normal_form;
+mod conjunctive_normal_form;
 
 use adder::adder;
 use multiplier::multiplier;
@@ -11,6 +12,7 @@ use gray_code::gray_code;
 use eval_formula::eval_formula;
 use print_truth_table::print_truth_table;
 use negation_normal_form::negation_normal_form;
+use conjunctive_normal_form::conjunctive_normal_form;
 
 use rand::Rng;
 
@@ -96,5 +98,14 @@ fn main() {
     println!("{}\n", negation_normal_form("AB^")); // AB|A!B!|&
     println!("{}\n", negation_normal_form("AB=C=")); // AB&A!B!&|C&A!B!|AB|&C!&|
     println!("{}\n", negation_normal_form("AB^C^")); // AB|A!B!|&C|A!B!&AB&|C!|&
-    println!("{}\n", negation_normal_form("AB=C^")); // AB|A!B!|&C|A!B!&AB&|C!|&
+
+    println!("\n{}--------------------EXERCISE 06--------------------{}", bold, reset);
+    println!("{}\n", conjunctive_normal_form("AB&!")); // A!B!|
+    println!("{}\n", conjunctive_normal_form("AB|!")); // A!B!&
+    println!("{}\n", conjunctive_normal_form("AB|C&")); // AB|C&
+    println!("{}\n", conjunctive_normal_form("AB|C|D|")); // ABCD|||
+    println!("{}\n", conjunctive_normal_form("AB&C&D&")); // ABCD&&&
+    println!("{}\n", conjunctive_normal_form("AB&!C!|")); // A!B!C!||
+    println!("{}\n", conjunctive_normal_form("AB|!C!&")); // A!B!C!&&
+    
 }

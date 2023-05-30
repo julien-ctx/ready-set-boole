@@ -33,8 +33,8 @@ fn contains_forbidden_chars(f: &mut Vec<char>) -> bool {
 fn get_vars(stack: &mut Vec<char>) -> (Vec<char>, Vec<char>) {
     let mut copy = stack.clone();
     copy.pop();
-    let mut i = 0;
 
+    let mut i = 0;
     if is_binary_operator(copy[copy.len() - 1]) {
         let mut alpha_count = 0;
         for (index, c) in copy.iter().enumerate().rev() {
@@ -46,20 +46,11 @@ fn get_vars(stack: &mut Vec<char>) -> (Vec<char>, Vec<char>) {
                 break;
             }
         }
-        let subvector1 = &stack[0..i];
-        let subvector2 = &stack[i..stack.len() - 1];
-        return (subvector1.to_vec(), subvector2.to_vec());
-
+        return ((&stack[0..i]).to_vec(), (&stack[i..stack.len() - 1]).to_vec());
     } else if copy[copy.len() - 1] == '!' {
-        let subvector1 = &stack[0..stack.len() - 3];
-        let subvector2 = &stack[stack.len() - 3..stack.len() - 1];
-        
-        return (subvector1.to_vec(), subvector2.to_vec());
+        return ((&stack[0..stack.len() - 3]).to_vec(), (&stack[stack.len() - 3..stack.len() - 1]).to_vec())
     } else {
-        let subvector1 = &stack[0..stack.len() - 2];
-        let subvector2 = &stack[stack.len() - 2..stack.len() - 1];
-        
-        return (subvector1.to_vec(), subvector2.to_vec());
+        return ((&stack[0..stack.len() - 2]).to_vec(), (&stack[stack.len() - 2..stack.len() - 1]).to_vec());
     }
 }
 
@@ -79,11 +70,9 @@ pub fn negation_normal_form(formula: &str) -> String {
                         stack[len - 1] = '&';
                     }
                     let (first, second) = get_vars(&mut stack);
-                    // println!("{} {}", first.iter().collect::<String>(), second.iter().collect::<String>());
                     let new_chars = format!("{}!{}!{}", first.iter().collect::<String>(), second.iter().collect::<String>(), stack[len - 1]);
                     stack.clear();
                     stack.extend(new_chars.chars());
-                    // println!("res: {}", stack.iter().collect::<String>());
                 } else {
                     stack.push(*c); 
                 }
@@ -107,7 +96,6 @@ pub fn negation_normal_form(formula: &str) -> String {
         f = stack.clone();
         stack.clear();
         remove_double_negation(&mut f);
-        // println!("fsres: {}", f.iter().collect::<String>());
     }
     f.iter().collect()
 }
