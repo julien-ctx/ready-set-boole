@@ -27,7 +27,7 @@ fn remove_double_negation(vec: &mut Vec<char>) {
 }
 
 fn contains_forbidden_chars(f: &mut Vec<char>) -> bool {
-    f.iter().collect::<String>().contains("&!") || f.iter().collect::<String>().contains("|!") || f.iter().collect::<String>().contains("=") || f.iter().collect::<String>().contains(">")
+    f.iter().collect::<String>().contains("&!") || f.iter().collect::<String>().contains("|!") || f.iter().collect::<String>().contains("=") || f.iter().collect::<String>().contains(">") || f.iter().collect::<String>().contains("^")
 }
 
 fn get_vars(stack: &mut Vec<char>) -> (Vec<char>, Vec<char>) {
@@ -67,7 +67,6 @@ pub fn negation_normal_form(formula: &str) -> String {
     let mut f: Vec<char> = formula.chars().collect();
     let mut stack: Vec<char> = Vec::new();
     
-    // let mut i =0;
     remove_double_negation(&mut f);
     while contains_forbidden_chars(&mut f) {
         for c in &f {
@@ -80,14 +79,27 @@ pub fn negation_normal_form(formula: &str) -> String {
                         stack[len - 1] = '&';
                     }
                     let (first, second) = get_vars(&mut stack);
-                    println!("{} {}", first.iter().collect::<String>(), second.iter().collect::<String>());
+                    // println!("{} {}", first.iter().collect::<String>(), second.iter().collect::<String>());
                     let new_chars = format!("{}!{}!{}", first.iter().collect::<String>(), second.iter().collect::<String>(), stack[len - 1]);
                     stack.clear();
                     stack.extend(new_chars.chars());
-                    println!("res: {}", stack.iter().collect::<String>());
+                    // println!("res: {}", stack.iter().collect::<String>());
                 } else {
                     stack.push(*c); 
                 }
+            } else if *c == '=' || *c == '>' || *c == '^' {
+                stack.push(*c); 
+                let (first, second) = get_vars(&mut stack);
+                let new_chars;
+                if *c == '=' {
+                    new_chars = format!("{}{}&{}!{}!&|", first.iter().collect::<String>(), second.iter().collect::<String>(), first.iter().collect::<String>(), second.iter().collect::<String>());
+                } else if *c == '>' {
+                    new_chars = format!("{}!{}|", first.iter().collect::<String>(), second.iter().collect::<String>());
+                } else {
+                    new_chars = format!("{}{}|{}!{}!|&", first.iter().collect::<String>(), second.iter().collect::<String>(), first.iter().collect::<String>(), second.iter().collect::<String>());
+                }
+                stack.clear();
+                stack.extend(new_chars.chars());
             } else {
                 stack.push(*c);
             }
@@ -95,7 +107,7 @@ pub fn negation_normal_form(formula: &str) -> String {
         f = stack.clone();
         stack.clear();
         remove_double_negation(&mut f);
-        println!("fsres: {}", f.iter().collect::<String>());
+        // println!("fsres: {}", f.iter().collect::<String>());
     }
     f.iter().collect()
 }
