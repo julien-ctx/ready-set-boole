@@ -100,12 +100,12 @@ fn main() {
     println!("{}\n", negation_normal_form("AB^C^")); // AB|A!B!|&C|A!B!&AB&|C!|&
 
     println!("\n{}--------------------EXERCISE 06--------------------{}", bold, reset);
-    println!("{}\n", conjunctive_normal_form("AB&!")); // A!B!|
-    println!("{}\n", conjunctive_normal_form("AB|!")); // A!B!&
-    println!("{}\n", conjunctive_normal_form("AB|C&")); // AB|C&
-    println!("{}\n", conjunctive_normal_form("AB|C|D|")); // ABCD|||
-    println!("{}\n", conjunctive_normal_form("AB&C&D&")); // ABCD&&&
-    println!("{}\n", conjunctive_normal_form("AB&!C!|")); // A!B!C!||
-    println!("{}\n", conjunctive_normal_form("AB|!C!&")); // A!B!C!&&
-    
+    // println!("{}\n", conjunctive_normal_form("AB&!")); // A!B!|
+    // println!("{}\n", conjunctive_normal_form("AB|!")); // A!B!&
+    // println!("{}\n", conjunctive_normal_form("AB|C&")); // AB|C&
+    // println!("{}\n", conjunctive_normal_form("AB|C|D|")); // ABCD|||
+    // println!("{}\n", conjunctive_normal_form("AB&C&D&")); // ABCD&&&
+    // println!("{}\n", conjunctive_normal_form("AB&!C!|")); // A!B!C!||
+    // println!("{}\n", conjunctive_normal_form("AB|!C!&")); // A!B!C!&&
+    println!("{}\n", conjunctive_normal_form("ABCD&|&")); // ABC|BD|&&
 }
