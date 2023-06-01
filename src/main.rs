@@ -122,5 +122,7 @@ fn main() {
     println!("{}", sat("A!A^!")); // false
     
     println!("\n{}--------------------EXERCISE 07--------------------{}", bold, reset);
+    println!("{:?}", powerset(&[1]));
+    println!("{:?}", powerset(&[1, 2]));
     println!("{:?}", powerset(&[1, 2, 3]));
 }
