@@ -6,6 +6,7 @@ mod print_truth_table;
 mod negation_normal_form;
 mod conjunctive_normal_form;
 mod sat;
+mod powerset;
 
 use adder::adder;
 use multiplier::multiplier;
@@ -15,6 +16,7 @@ use print_truth_table::print_truth_table;
 use negation_normal_form::negation_normal_form;
 use conjunctive_normal_form::conjunctive_normal_form;
 use sat::sat;
+use powerset::powerset;
 
 use rand::Rng;
 
@@ -118,4 +120,7 @@ fn main() {
     println!("{}", sat("AA^")); // false
     println!("{}", sat("A!A^")); // false
     println!("{}", sat("A!A^!")); // false
+    
+    println!("\n{}--------------------EXERCISE 07--------------------{}", bold, reset);
+    println!("{:?}", powerset(&[1, 2, 3]));
 }
