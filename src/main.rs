@@ -5,6 +5,7 @@ mod eval_formula;
 mod print_truth_table;
 mod negation_normal_form;
 mod conjunctive_normal_form;
+mod sat;
 
 use adder::adder;
 use multiplier::multiplier;
@@ -13,6 +14,7 @@ use eval_formula::eval_formula;
 use print_truth_table::print_truth_table;
 use negation_normal_form::negation_normal_form;
 use conjunctive_normal_form::conjunctive_normal_form;
+use sat::sat;
 
 use rand::Rng;
 
@@ -108,4 +110,12 @@ fn main() {
     println!("{}\n", conjunctive_normal_form("AB&!C!|")); // A!B!C!||
     println!("{}\n", conjunctive_normal_form("AB|!C!&")); // A!B!C!&&
     println!("{}\n", conjunctive_normal_form("ABCD&|&")); // ABC|BD|&&
+
+    println!("\n{}--------------------EXERCISE 07--------------------{}", bold, reset);
+    println!("{}", sat("AB|")); // true
+    println!("{}", sat("AB&")); // true
+    println!("{}", sat("AA!&")); // false
+    println!("{}", sat("AA^")); // false
+    println!("{}", sat("A!A^")); // false
+    println!("{}", sat("A!A^!")); // false
 }
