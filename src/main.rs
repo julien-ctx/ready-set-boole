@@ -7,6 +7,7 @@ mod negation_normal_form;
 mod conjunctive_normal_form;
 mod sat;
 mod powerset;
+mod eval_set;
 mod map;
 mod reverse_map;
 
@@ -19,6 +20,7 @@ use negation_normal_form::negation_normal_form;
 use conjunctive_normal_form::conjunctive_normal_form;
 use sat::sat;
 use powerset::powerset;
+use eval_set::eval_set;
 use map::map;
 use reverse_map::reverse_map;
 
@@ -131,7 +133,51 @@ fn main() {
     println!("{:?}", powerset(&[1, 2, 3]));
 
     println!("\n{}--------------------EXERCISE 09--------------------{}", bold, reset);
+    let sets: [&[i32]; 2] = [
+        &[0, 1, 2],
+        &[0, 3, 4],
+    ];
+    let result = eval_set("AB&", &sets);
+    println!("{:?}", result);
+
+    let sets: [&[i32]; 2] = [
+        &[0, 1, 2],
+        &[3, 4, 5],
+    ];
+    let result = eval_set("AB|", &sets);
+    println!("{:?}", result);
+    // [0, 1, 2, 3, 4, 5]
     
+    let sets: [&[i32]; 2] = [
+        &[0, 1, 2],
+        &[1, 2, 3],
+    ];
+    let result = eval_set("AB^", &sets);
+    println!("{:?}", result);
+    // [0, 3]
+
+    let sets: [&[i32]; 2] = [
+        &[0, 1, 2],
+        &[0, 1, 2],
+    ];
+    let result = eval_set("AB=", &sets);
+    println!("{:?}", result);
+    // [0, 1, 2]
+
+    let sets: [&[i32]; 2] = [
+        &[0, 1, 6],
+        &[0, 1, 2, 3, 5],
+    ];
+    let result = eval_set("AB>", &sets);
+    println!("{:?}", result);
+    // []
+
+    let sets: [&[i32]; 1] = [
+        &[1, 2, 3],
+    ];
+    let result = eval_set("A!", &sets);
+    println!("{:?}", result);
+    // []
 
     println!("\n{}--------------------EXERCISE 10--------------------{}", bold, reset);
     println!("{}", map(5, 6)); // 57
