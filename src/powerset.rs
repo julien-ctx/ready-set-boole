@@ -1,3 +1,5 @@
+use crate::adder;
+
 fn add_combinations(vec: &mut Vec<i32>, res: &mut Vec<Vec<i32>>, permutation: &mut Vec<i32>, len: i32) {
 	if len == vec.len() as i32 {
 		let mut elem: Vec<i32> = Vec::new();
@@ -10,7 +12,7 @@ fn add_combinations(vec: &mut Vec<i32>, res: &mut Vec<Vec<i32>>, permutation: &m
 	} else {
 		for i in 0..2 {
 			permutation[len as usize] = i;
-			add_combinations(vec, res, permutation, len + 1);
+			add_combinations(vec, res, permutation, adder(len as u32, 1) as i32);
 		}
 	}
 }

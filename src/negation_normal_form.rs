@@ -1,3 +1,4 @@
+use crate::adder;
 use std::process;
 
 fn is_binary_operator(c: char) -> bool {
@@ -40,7 +41,7 @@ fn get_vars(stack: &mut Vec<char>) -> (Vec<char>, Vec<char>) {
         for (index, c) in copy.iter().enumerate().rev() {
             i = index;
             if c.is_ascii_uppercase() {
-                alpha_count += 1;
+                alpha_count = adder(alpha_count, 1);
             }
             if alpha_count == 2 {
                 break;
