@@ -131,6 +131,9 @@ fn main() {
     println!("{:?}", powerset(&[1, 2, 3]));
 
     println!("\n{}--------------------EXERCISE 09--------------------{}", bold, reset);
+    
+
+    println!("\n{}--------------------EXERCISE 10--------------------{}", bold, reset);
     println!("{}", map(5, 6)); // 57
     println!("{}", map(0, 3)); // 10
     println!("{}", map(21, 42)); // 2457
@@ -138,7 +141,7 @@ fn main() {
     println!("{}", map(65535, 65535));
     println!("{}", map(65535, 32767));
     
-    println!("\n{}--------------------EXERCISE 10--------------------{}", bold, reset);
+    println!("\n{}--------------------EXERCISE 11--------------------{}", bold, reset);
     println!("{:?}", reverse_map(0.000000013271346691360545));
     println!("{:?}", reverse_map(0.0000000023283064370807974));
     println!("{:?}", reverse_map(0.0000005720648915907519));
