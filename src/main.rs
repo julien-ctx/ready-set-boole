@@ -129,5 +129,10 @@ fn main() {
     println!("{:?}", powerset(&[1, 2, 3]));
 
     println!("\n{}--------------------EXERCISE 09--------------------{}", bold, reset);
-    println!("-> {}", map(5, 3));
+    println!("{}", map(5, 6)); // 57
+    println!("{}", map(0, 3)); // 10
+    println!("{}", map(21, 42)); // 2457
+    
+    println!("{}", map(65535, 65535));
+    println!("{}", map(65535, 32767));
 }
