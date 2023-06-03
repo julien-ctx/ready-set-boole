@@ -8,6 +8,7 @@ mod conjunctive_normal_form;
 mod sat;
 mod powerset;
 mod map;
+mod reverse_map;
 
 use adder::adder;
 use multiplier::multiplier;
@@ -19,6 +20,7 @@ use conjunctive_normal_form::conjunctive_normal_form;
 use sat::sat;
 use powerset::powerset;
 use map::map;
+use reverse_map::reverse_map;
 
 use rand::Rng;
 
@@ -135,4 +137,12 @@ fn main() {
     
     println!("{}", map(65535, 65535));
     println!("{}", map(65535, 32767));
+    
+    println!("\n{}--------------------EXERCISE 09--------------------{}", bold, reset);
+    println!("{:?}", reverse_map(0.000000013271346691360545));
+    println!("{:?}", reverse_map(0.0000000023283064370807974));
+    println!("{:?}", reverse_map(0.0000005720648915907519));
+
+    println!("{:?}", reverse_map(1.0));
+    println!("{:?}", reverse_map(0.5));
 }
