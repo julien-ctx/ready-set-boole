@@ -139,6 +139,7 @@ fn main() {
     ];
     let result = eval_set("AB&", &sets);
     println!("{:?}", result);
+    // [0]
 
     let sets: [&[i32]; 2] = [
         &[0, 1, 2],
@@ -178,6 +179,14 @@ fn main() {
     let result = eval_set("A!", &sets);
     println!("{:?}", result);
     // []
+
+    let sets: [&[i32]; 2] = [
+        &[1, 2, 3],
+        &[1, 2, 3],
+    ];
+    let result = eval_set("AB=A=", &sets);
+    println!("{:?}", result);
+    // [1, 2, 3]
 
     println!("\n{}--------------------EXERCISE 10--------------------{}", bold, reset);
     println!("{}", map(5, 6)); // 57

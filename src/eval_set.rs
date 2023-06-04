@@ -68,23 +68,31 @@ fn implication(first: &[i32], second: &[i32]) -> Vec<i32> {
 pub fn eval_set(formula: &str, sets: &[&[i32]]) -> Vec<i32> {
 	let f = formula.replace(" ", "");
 	let mut stack: Vec<Vec<i32>> = Vec::new();
-	let mut res: Vec<i32> = Vec::new();
+	let mut tmp: Vec<i32> = Vec::new();
 	let mut i: u32 = 0;
-
+	let mut vars: Vec<char> = Vec::new();
+	
 	for c in f.chars() {
 		if c.is_ascii_uppercase() {
-			stack.push(sets[i as usize].to_vec());
-			i += 1;
+			if let Some(index) = vars.iter().position(|&ch| ch == c) {
+				stack.push(sets[index as usize].to_vec());
+			} else {
+				stack.push(sets[i as usize].to_vec());
+				vars.push(c);
+				i += 1;
+			}
 		} else if c == '!' {
-			res.extend(logical_negation(&stack[stack.len() - 1]));
+			tmp.extend(logical_negation(&stack[stack.len() - 1]));
 			stack.pop();
+			stack.push(tmp.clone());
+			tmp.clear();
 		} else if stack.len() >= 2 {
 			match c {
-				'&' => res.extend(and(&stack[stack.len() - 2], &stack[stack.len() - 1])),
-				'|' => res.extend(or(&stack[stack.len() - 2], &stack[stack.len() - 1])),
-				'^' => res.extend(xor(&stack[stack.len() - 2], &stack[stack.len() - 1])),
-				'=' => res.extend(equivalence(&stack[stack.len() - 2], &stack[stack.len() - 1])),
-				'>' => res.extend(implication(&stack[stack.len() - 2], &stack[stack.len() - 1])),
+				'&' => tmp.extend(and(&stack[stack.len() - 2], &stack[stack.len() - 1])),
+				'|' => tmp.extend(or(&stack[stack.len() - 2], &stack[stack.len() - 1])),
+				'^' => tmp.extend(xor(&stack[stack.len() - 2], &stack[stack.len() - 1])),
+				'=' => tmp.extend(equivalence(&stack[stack.len() - 2], &stack[stack.len() - 1])),
+				'>' => tmp.extend(implication(&stack[stack.len() - 2], &stack[stack.len() - 1])),
 				_ => {
 					println!("Error: forbidden characters in input string");
 					process::exit(1);
@@ -92,10 +100,16 @@ pub fn eval_set(formula: &str, sets: &[&[i32]]) -> Vec<i32> {
 			}
 			stack.pop();
 			stack.pop();
+			stack.push(tmp.clone());
+			tmp.clear();
 		} else {
 			println!("Error: bad RPN syntax");
 			process::exit(1);	
 		}
 	}
-	res
+	if stack.len() == 0 {
+		println!("Error: bad RPN syntax");
+		process::exit(1);
+	}
+	stack[0].clone()
 }
